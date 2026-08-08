@@ -60,42 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     counters.forEach(counter => counterObserver.observe(counter));
 
-    // 4. Typing Effect for Hero Title
-    const typingSpan = document.querySelector('.typing-text');
-    const words = ["AI Integration", "Global Migrations", "Operational Excellence"];
-    let wordIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-
-    function typeEffect() {
-        const currentWord = words[wordIndex];
-        
-        if (isDeleting) {
-            typingSpan.textContent = currentWord.substring(0, charIndex - 1);
-            charIndex--;
-        } else {
-            typingSpan.textContent = currentWord.substring(0, charIndex + 1);
-            charIndex++;
-        }
-
-        let typeSpeed = isDeleting ? 50 : 100;
-
-        if (!isDeleting && charIndex === currentWord.length) {
-            typeSpeed = 2000; // Pause at end of word
-            isDeleting = true;
-        } else if (isDeleting && charIndex === 0) {
-            isDeleting = false;
-            wordIndex = (wordIndex + 1) % words.length;
-            typeSpeed = 500; // Pause before typing new word
-        }
-
-        setTimeout(typeEffect, typeSpeed);
-    }
-    
-    // Start typing effect after initial entrance animations
-    setTimeout(typeEffect, 1500);
-
-    // 5. 3D Tilt Effect on Case Studies
+    // 4. 3D Tilt Effect on Case Studies
     const tiltCards = document.querySelectorAll('.tilt-card');
     
     tiltCards.forEach(card => {
@@ -116,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 6. Interactive Hover Glow (CSS vars)
+    // 5. Interactive Hover Glow (CSS vars)
     const glowCards = document.querySelectorAll('.hover-glow');
     glowCards.forEach(card => {
         card.addEventListener('mousemove', e => {
