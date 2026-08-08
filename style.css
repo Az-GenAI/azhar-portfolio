@@ -174,6 +174,18 @@ section { max-width: 1200px; margin: 0 auto; padding: 120px 20px; }
 .section-header h2 { font-size: 3rem; margin-bottom: 15px; }
 .section-header p { color: var(--text-muted); font-size: 1.1rem; }
 
+/* About */
+.about { border-top: 1px solid rgba(255,255,255,0.06); }
+.about-grid { display: grid; grid-template-columns: 1.25fr 1fr; gap: 28px; }
+.about-statement { padding: 38px; }
+.about-statement p { color: var(--text-muted); font-size: 1.18rem; margin-bottom: 18px; }
+.about-statement p:last-child { margin-bottom: 0; }
+.about-focus { display: grid; gap: 14px; }
+.about-focus div { padding: 20px 22px; border-left: 2px solid var(--accent); background: rgba(16, 185, 129, 0.04); }
+.about-focus i { color: var(--accent); margin-right: 10px; }
+.about-focus strong { display: inline-block; color: var(--text-main); }
+.about-focus span { display: block; color: var(--text-muted); margin-top: 6px; }
+
 /* Case Studies */
 .case-study { display: flex; gap: 60px; align-items: center; margin-bottom: 100px; position: relative; background: var(--bg-panel); border: 1px solid var(--border-glass); border-radius: 24px; padding: 50px; backdrop-filter: var(--glass-blur); transition: transform 0.3s ease, box-shadow 0.3s ease; }
 .case-study:hover { box-shadow: 0 15px 40px rgba(0,0,0,0.4), 0 0 20px rgba(0, 240, 255, 0.1); }
@@ -286,6 +298,14 @@ section { max-width: 1200px; margin: 0 auto; padding: 120px 20px; }
 .principle-card h3 { font-size: 1.35rem; margin: 16px 0 12px; }
 .principle-card p { color: var(--text-muted); }
 
+/* Resume */
+.resume { border-top: 1px solid rgba(255,255,255,0.06); }
+.resume-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.resume-card { padding: 30px; }
+.resume-card h3 { color: var(--accent-secondary); font-size: 1.3rem; margin-bottom: 12px; }
+.resume-card p { color: var(--text-muted); }
+.resume-cta { margin-top: 32px; text-align: center; }
+
 /* Skills Container */
 .skills-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
 .skill-category h3 { font-size: 1.4rem; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; color: var(--text-main); }
@@ -319,7 +339,7 @@ footer { background: #020409; padding: 100px 20px 40px; text-align: center; bord
     .timeline-item:nth-child(odd) .timeline-dot, .timeline-item:nth-child(even) .timeline-dot { left: 21px; }
     .case-study, .case-study.reverse { flex-direction: column; padding: 30px; }
     .case-number { font-size: 5rem; top: 10px; }
-    .project-grid, .principles-grid { grid-template-columns: 1fr; }
+    .project-grid, .principles-grid, .about-grid, .resume-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 768px) {
     .hero-title { font-size: 3rem; }
