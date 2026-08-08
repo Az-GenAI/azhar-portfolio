@@ -263,8 +263,9 @@ section { max-width: 1200px; margin: 0 auto; padding: 120px 20px; }
 .timeline-content p { color: var(--text-muted); font-size: 0.95rem; }
 
 /* Projects */
-.project-grid { display: grid; grid-template-columns: 1fr; gap: 40px; }
+.project-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
 .project-card { padding: 50px; position: relative; overflow: hidden; transition: all 0.4s ease; border: 1px solid var(--border-glass); }
+.featured-project { border-color: rgba(16, 185, 129, 0.45); background: linear-gradient(140deg, rgba(16, 185, 129, 0.12), var(--bg-panel)); }
 .project-status { position: absolute; top: 30px; right: 30px; background: rgba(20, 184, 166, 0.15); color: #5eead4; border: 1px solid rgba(20, 184, 166, 0.4); padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;}
 .project-icon { font-size: 3rem; color: var(--accent); margin-bottom: 20px; }
 .project-card h3 { font-size: 2.5rem; margin-bottom: 5px; }
@@ -273,6 +274,17 @@ section { max-width: 1200px; margin: 0 auto; padding: 120px 20px; }
 .tech-tags { display: flex; gap: 12px; flex-wrap: wrap; }
 .tech-tags span, .skill-tags span { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 20px; font-size: 0.9rem; color: var(--text-main); transition: all 0.3s ease; }
 .tech-tags span:hover, .skill-tags span:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+.project-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 20px; margin-top: 30px; }
+.project-text-link { color: var(--text-main); text-decoration: none; font-weight: 600; }
+.project-text-link:hover { color: var(--accent); }
+
+/* Leadership principles */
+.leadership { border-top: 1px solid rgba(255,255,255,0.06); }
+.principles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.principle-card { padding: 32px; }
+.principle-card span { color: var(--accent); font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.9rem; letter-spacing: 1px; }
+.principle-card h3 { font-size: 1.35rem; margin: 16px 0 12px; }
+.principle-card p { color: var(--text-muted); }
 
 /* Skills Container */
 .skills-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
@@ -307,10 +319,13 @@ footer { background: #020409; padding: 100px 20px 40px; text-align: center; bord
     .timeline-item:nth-child(odd) .timeline-dot, .timeline-item:nth-child(even) .timeline-dot { left: 21px; }
     .case-study, .case-study.reverse { flex-direction: column; padding: 30px; }
     .case-number { font-size: 5rem; top: 10px; }
+    .project-grid, .principles-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 768px) {
     .hero-title { font-size: 3rem; }
     .hero-stats { flex-direction: column; gap: 20px; }
     .nav-links { display: none; }
     .contact-links { flex-direction: column; }
+    .project-card { padding: 34px 26px; }
+    .project-card h3 { font-size: 2rem; }
 }
