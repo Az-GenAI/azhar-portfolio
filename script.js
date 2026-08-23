@@ -1,95 +1,11 @@
-document.addEventListener('DOMContentLoaded', () => {
-    
-    // 1. Custom Cursor Glow
-    const cursor = document.querySelector('.cursor-glow');
-    document.addEventListener('mousemove', (e) => {
-        cursor.style.opacity = '1';
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
-    });
-
-    document.addEventListener('mouseleave', () => {
-        cursor.style.opacity = '0';
-    });
-
-    // 2. Intersection Observer for Scroll Reveals
-    const revealOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.15
-    };
-
-    const revealObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, revealOptions);
-
-    const reveals = document.querySelectorAll('.reveal');
-    reveals.forEach(el => revealObserver.observe(el));
-
-    // 3. Dynamic Number Counters
-    const counters = document.querySelectorAll('.counter');
-    const speed = 200; // lower is slower
-
-    const startCounter = (counter) => {
-        const target = +counter.getAttribute('data-target');
-        const count = +counter.innerText;
-        const inc = target / speed;
-
-        if (count < target) {
-            counter.innerText = Math.ceil(count + inc);
-            setTimeout(() => startCounter(counter), 10);
-        } else {
-            counter.innerText = target;
-        }
-    };
-
-    // Only start counters when they scroll into view
-    const counterObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                startCounter(entry.target);
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.5 });
-
-    counters.forEach(counter => counterObserver.observe(counter));
-
-    // 4. 3D Tilt Effect on Case Studies
-    const tiltCards = document.querySelectorAll('.tilt-card');
-    
-    tiltCards.forEach(card => {
-        card.addEventListener('mousemove', e => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            // Calculate rotation (max 5 degrees)
-            const xRotation = ((y - rect.height / 2) / rect.height) * -10;
-            const yRotation = ((x - rect.width / 2) / rect.width) * 10;
-            
-            card.style.transform = `perspective(1000px) scale(1.02) rotateX(${xRotation}deg) rotateY(${yRotation}deg)`;
-        });
-        
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = `perspective(1000px) scale(1) rotateX(0deg) rotateY(0deg)`;
-        });
-    });
-
-    // 5. Interactive Hover Glow (CSS vars)
-    const glowCards = document.querySelectorAll('.hover-glow');
-    glowCards.forEach(card => {
-        card.addEventListener('mousemove', e => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            card.style.setProperty('--mouse-x', `${x}px`);
-            card.style.setProperty('--mouse-y', `${y}px`);
-        });
-    });
-});
+const $=(s,p=document)=>p.querySelector(s),$$=(s,p=document)=>[...p.querySelectorAll(s)];
+const progress=$('.progress'),cursor=$('.cursor');addEventListener('scroll',()=>progress.style.width=scrollY/(document.documentElement.scrollHeight-innerHeight)*100+'%');addEventListener('mousemove',e=>{cursor.style.transform=`translate(${e.clientX-9}px,${e.clientY-9}px)`});
+const reveal=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');reveal.unobserve(e.target)}}),{threshold:.12});$$('.reveal').forEach(e=>reveal.observe(e));
+const counts=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target,n=+el.dataset.count,start=performance.now(),dur=1200;function tick(t){let p=Math.min((t-start)/dur,1);el.textContent=Math.round(n*(1-Math.pow(1-p,3))).toLocaleString();if(p<1)requestAnimationFrame(tick)}requestAnimationFrame(tick);counts.unobserve(el)}),{threshold:.5});$$('[data-count]').forEach(e=>counts.observe(e));
+$$('.case-nav button').forEach(b=>b.onclick=()=>{$$('.case-nav button').forEach(x=>x.classList.remove('active'));$$('.case-panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('[data-panel="'+b.dataset.case+'"]').classList.add('active')});
+const eras=[['2010—2014 · PACKT','Technical Editor → Development Team Leader','Built technical judgment across 15+ domains, global author ecosystems, developer content, quality governance, and delivery fundamentals.','Technical quality|Global stakeholders|15+ domains'],['2014—2017 · PACKT','Development Team Leader → Project Manager','Led teams through high-volume technical delivery while protecting quality and building repeatable author and project management systems.','91 projects in 2015|Low attrition|Team leadership'],['2017—2018 · PACKT','Senior Project Manager','Led an 18-person team and transformed a £1.7M+ portfolio from slow handoffs into a high-performance delivery system.','153% target|270 → <120 days|90+ annual projects'],['2018—2022 · CONTENTSTACK','Project Manager / Knowledge Architect','Turned months-old cross-functional requests into a governed knowledge and integration program serving Sales, Marketing, and Customer Success.','14+ stakeholders|2 writers managed|6–8 month stabilization'],['2022—2023 · ACCENTURE','Cloud & Operations Associate Manager','Took over global migration delivery mid-flight and coordinated the final seven data-centre migrations with zero missed production cutovers.','1,000+ contributors|11 data centres|High Impact Performer'],['2023—PRESENT · CONTENTSTACK','Team Lead, Technical Content · Program Management, AI & Platform Delivery','Program-manage Docs and Academy while building MCPs, analytics, AI workflows, and the operating systems that connect knowledge to customer and business outcomes.','Docs + Academy|AI transformation|Executive stakeholders']];
+$$('.era').forEach((b,i)=>b.onclick=()=>{$$('.era').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('.trackline span').style.setProperty('--x',i/5*100+'%');const d=eras[i],box=$('.era-detail');box.animate([{opacity:.2,transform:'translateY(8px)'},{opacity:1,transform:'none'}],{duration:350});box.innerHTML=`<small>${d[0]}</small><h3>${d[1]}</h3><p>${d[2]}</p><div>${d[3].split('|').map(x=>'<span>'+x+'</span>').join('')}</div>`});
+const tilt=$('.tilt');addEventListener('mousemove',e=>{if(innerWidth<760){return}const x=(e.clientX/innerWidth-.5)*8,y=(e.clientY/innerHeight-.5)*-5;tilt.style.transform=`perspective(1000px) rotateX(${2+y}deg) rotateY(${-4+x}deg)`});
+$('.menu').onclick=e=>{const n=$('header nav'),open=n.style.display==='flex';n.style.cssText=open?'':'display:flex;position:absolute;top:78px;left:0;right:0;background:#090b12;padding:25px;flex-direction:column'};
+const lab=document.createElement('section');lab.className='lab';lab.id='lab';lab.innerHTML=`<div class="section-intro reveal visible"><p class="label">AI SYSTEMS LAB / BUILT BY ME</p><h2>Strategy is stronger<br>when you can <em>ship the idea.</em></h2><p>Explore the working products—or test the decision logic below.</p></div><div class="product-showcase"><a class="system-card radar" href="https://azhar-risk-radar.streamlit.app/" target="_blank"><div class="system-top"><span><i></i> LIVE DEMO</span><b>01</b></div><div class="radar-viz"><div class="rings"><i></i><i></i><i></i><span></span><b></b></div><div class="radar-feed"><span>DEPENDENCY EXPOSURE</span><b>3 SIGNALS</b><span>OWNER COVERAGE</span><b>86%</b><span>RECOVERY CONFIDENCE</span><b>HIGH</b></div></div><h3>Risk Radar</h3><p>AI-powered early warning that converts fragmented updates into explainable blockers, dependency exposure, accountable owners, and recommended actions.</p><div class="system-tags"><span>Explainable AI</span><span>Risk intelligence</span><span>Owner assignment</span></div><strong>Launch Risk Radar ↗</strong></a><a class="system-card suite" href="https://azhar-program-intelligence.streamlit.app/" target="_blank"><div class="system-top"><span><i></i> LIVE SYSTEM</span><b>02</b></div><div class="suite-viz"><div class="suite-side"><i></i><i></i><i></i><i></i></div><div class="suite-main"><span></span><div><i style="--v:68%"></i><i style="--v:82%"></i><i style="--v:54%"></i></div><b></b><b></b></div></div><h3>Program Intelligence Suite</h3><p>Turns status noise into executive-ready health, risks, decisions, next actions, dependency-aware timelines, and recovery scenarios.</p><div class="system-tags"><span>Scenario planning</span><span>Delivery orchestration</span><span>Human-in-the-loop AI</span></div><strong>Launch the Suite ↗</strong></a></div><div class="simulator"><div class="sim-head"><div><p class="label">INTERACTIVE / PROGRAM SIGNAL SIMULATOR</p><h3>Change the conditions. Watch the risk model respond.</h3></div><span class="live"><i></i> MODEL ACTIVE</span></div><div class="sim-body"><div class="controls"><label>Dependency confidence <output id="depOut">72%</output><input id="dep" type="range" min="10" max="100" value="72"></label><label>Team capacity <output id="capOut">84%</output><input id="cap" type="range" min="10" max="100" value="84"></label><label>Schedule pressure <output id="pressureOut">38%</output><input id="pressure" type="range" min="0" max="100" value="38"></label><div class="scenario-buttons"><button data-scenario="stable" class="active">Stable</button><button data-scenario="vendor">Vendor delay</button><button data-scenario="scope">Scope increase</button></div></div><div class="sim-result"><div class="risk-dial"><div><span id="riskScore">31</span><small>RISK SCORE</small></div></div><div class="diagnosis"><small>AI-ASSISTED DIAGNOSIS</small><h4 id="riskTitle">Program is stable</h4><p id="riskText">Dependencies and capacity are sufficient for the current delivery pressure.</p><div><span>RECOMMENDED ACTION</span><b id="riskAction">Maintain cadence and monitor vendor milestones.</b></div></div></div></div></div>`;$('.career').before(lab);const css=document.createElement('link');css.rel='stylesheet';css.href='lab.css';document.head.append(css);const ll=document.createElement('a');ll.href='#lab';ll.textContent='AI Systems';$('header nav').insertBefore(ll,$('header nav a:nth-child(2)'));
+function updateRisk(){const d=+$('#dep').value,c=+$('#cap').value,p=+$('#pressure').value,score=Math.round((100-d)*.38+(100-c)*.27+p*.35);$('#depOut').value=d+'%';$('#capOut').value=c+'%';$('#pressureOut').value=p+'%';$('#riskScore').textContent=score;$('.risk-dial').style.setProperty('--risk',score*3.6+'deg');let v=score<35?['Program is stable','Dependencies and capacity are sufficient for current delivery pressure.','Maintain cadence and monitor vendor milestones.']:score<60?['Delivery friction emerging','One or more constraints may begin affecting committed milestones.','Clarify ownership, protect capacity, and review dependencies.']:['Intervention recommended','Combined pressure creates a material risk to the delivery plan.','Escalate the decision, model recovery options, and re-baseline.'];$('#riskTitle').textContent=v[0];$('#riskText').textContent=v[1];$('#riskAction').textContent=v[2]}$$('.controls input').forEach(i=>i.oninput=updateRisk);$$('.scenario-buttons button').forEach(b=>b.onclick=()=>{$$('.scenario-buttons button').forEach(x=>x.classList.remove('active'));b.classList.add('active');const v=b.dataset.scenario==='stable'?[82,88,28]:b.dataset.scenario==='vendor'?[28,76,68]:[58,42,82];['dep','cap','pressure'].forEach((id,i)=>$('#'+id).value=v[i]);updateRisk()});updateRisk();
